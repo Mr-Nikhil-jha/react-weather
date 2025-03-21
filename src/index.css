@@ -273,7 +273,8 @@ input {
   z-index: 999999;
   background-color: #0f2027;
 
-  background-image: url(./assets/spin01.svg);
+  background-image: url(assets/spin01.svg);
   background-repeat: no-repeat;
   background-position: center;
+  border: 2px solid red;
 }

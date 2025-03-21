@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import WeatherCard from "./WeatherCard";
 // import linkIcon from "/public/assets/link.svg";
-import searchIcon from "/public/assets/search.svg";
+import searchIcon from "/assets/search.svg";
 import MyLocationRoundedIcon from "@mui/icons-material/MyLocationRounded";
 
 function Bg({ setLoad }) {
