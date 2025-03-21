@@ -5,13 +5,13 @@ import searchIcon from "/assets/search.svg";
 import { ClipLoader, BounceLoader, MoonLoader } from "react-spinners";
 
 function Bg({ setLoad }) {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("New York");
   const [data, setData] = useState({});
   const [longitude, setLon] = useState(null);
   const [latitude, setLat] = useState(null);
   const [lang, setLang] = useState(true);
   const [scale, setScale] = useState(1);
-  let color = window.innerWidth < 768 ? "#fff" : "#331744";
+  let color = window.innerWidth < 768 ? "#fff" : "#fff";
   let loading = true;
   // console.log(city);
 
