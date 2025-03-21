@@ -77,7 +77,7 @@ function WeatherCard(props) {
                     <p>{getTime(props.sys.sunset)}</p>
                 </div>
             </div>
-            <p className="copyright">Current Weather Data</p>
+            {/* <p className="copyright">Current Weather Data</p> */}
             <p onClick={sideRight} className="rigtharrow">
                 <KeyboardArrowRightIcon />
             </p>

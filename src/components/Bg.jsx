@@ -6,7 +6,7 @@ import searchIcon from "/public/assets/search.svg";
 import MyLocationRoundedIcon from "@mui/icons-material/MyLocationRounded";
 
 function Bg({ setLoad }) {
-  const [city, setCity] = useState("New Delhi");
+  const [city, setCity] = useState("");
   const [data, setData] = useState({});
   const [longitude, setLon] = useState(null);
   const [latitude, setLat] = useState(null);
