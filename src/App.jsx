@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <div className="App">
-        <PreLoader load={load} />
+        {/* <PreLoader load={load} /> */}
         <Bg setLoad={updateLoad} />
       </div>
     </>

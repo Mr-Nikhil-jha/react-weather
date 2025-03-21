@@ -1,9 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import WeatherCard from "./WeatherCard";
-// import linkIcon from "/public/assets/link.svg";
 import searchIcon from "/assets/search.svg";
-import MyLocationRoundedIcon from "@mui/icons-material/MyLocationRounded";
+import { ClipLoader, BounceLoader, MoonLoader } from "react-spinners";
 
 function Bg({ setLoad }) {
   const [city, setCity] = useState("");
@@ -12,6 +11,8 @@ function Bg({ setLoad }) {
   const [latitude, setLat] = useState(null);
   const [lang, setLang] = useState(true);
   const [scale, setScale] = useState(1);
+  let color = window.innerWidth < 768 ? "#fff" : "#331744";
+  let loading = true;
   // console.log(city);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ function Bg({ setLoad }) {
     function success(position) {
       console.log(position.coords.latitude, position.coords.longitude);
       setLat(position.coords.latitude);
+      // alert("run");
       setLon(position.coords.longitude);
       if (latitude && longitude) GetGeoLocationData();
     }
@@ -44,8 +46,6 @@ function Bg({ setLoad }) {
       setCity("");
     } catch (error) {
       console.error("Error fetching weather data:", error);
-    } finally {
-      setLoad(false);
     }
   };
 
@@ -59,6 +59,22 @@ function Bg({ setLoad }) {
       .then((result) => setData(result));
     setCity("");
   };
+  if (Object.keys(data).length == 0) {
+    return (
+      <div className="loader-container">
+        <MoonLoader
+          color={color}
+          loading={loading}
+          size={60}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+          // cssOverride={{
+          //   borderWidth: "5px",
+          // }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="box">
@@ -88,7 +104,6 @@ function Bg({ setLoad }) {
             onMouseEnter={() => setScale(1.2)} // Zoom in
             onMouseLeave={() => setScale(1)} // Reset size
           />
-          {/* <MyLocationRoundedIcon className=" cursor-pointer" color="action" onClick={getCityWeatherData} /> */}
         </div>
       </div>
       {Object.keys(data).length > 0 && data.cod == "404" && (
