@@ -1,89 +1,73 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import WeatherCard from "./WeatherCard";
-import linkIcon from "./link.svg";
+import linkIcon from "../assets/link.svg";
 import searchIcon from "../assets/search.svg";
-import { GetWeatherData } from "../ApiCall";
 
 function Bg() {
-  const [city, setCity] = useState("Kota");
-  const [data, setData] = useState({});
-  const [lon, setLon] = useState(null);
-  const [lat, setLat] = useState(null);
-  const [lang, setLang] = useState(true);
-  // console.log(city);
+    const [city, setCity] = useState("New Delhi");
+    const [data, setData] = useState({});
+    const [longitude, setLon] = useState(null);
+    const [latitude, setLat] = useState(null);
+    const [lang, setLang] = useState(true);
+    // console.log(city);
 
-  useEffect(() => {
-    (async (_) => {
-      const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${
-          import.meta.env.VITE_API_KEY
-        }&units=metric&lang=${lang ? "en" : "hi"}`
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setData(data);
-        // setError(true);
-      } else {
-        setError(false);
-      }
-    })();
-  }, []);
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
 
-  //   GetWeatherData({ city, setData });
-  console.log(data);
+        function success(position) {
+            console.log(position.coords.latitude, position.coords.longitude);
+            setLat(position.coords.latitude);
+            setLon(position.coords.longitude);
+            if (latitude && longitude) GetGeoLocationData();
+        }
 
-  return (
-    <div className="box">
-      <div className="cityName">
-        {/* {error ? */}
-        {/* // ( */}
-        <p>
-          {data.name}, {data.sys.country}
-          Delhi, IN
-          <a href target="_ ">
-            <img src={linkIcon} alt="link" />
-            <img alt="link" />
-          </a>
-        </p>
-        {/* ) : ( */}
-        {/* <p className="invalid"> */}
-        {/* {lang ? "Invalid City Name" : "अमान्य शहर का नाम"} */}
-        {/* "Invalid City Name" */}
-        {/* </p> */}
-        {/* )} */}
-        <div className="search">
-          <input
-            type="text"
-            value={city}
-            // onKeyDown={onkeydownHandler}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="City Name"
-          />
-          <img
-            style={{ cursor: "pointer" }}
-            // onClick={onSubmitHandler}
-            src={searchIcon}
-            alt="searchIcon"
-          />
+        function error() {
+            getCityWeatherData();
+        }
+    }, [latitude, longitude]);
+    const GetGeoLocationData = () => {
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
+        fetch(url)
+            .then((response) => response.json())
+            .then((result) => setData(result));
+    };
+
+    const getCityWeatherData = () => {
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
+        fetch(url)
+            .then((response) => response.json())
+            .then((result) => setData(result));
+        setCity("");
+    };
+
+    //   GetWeatherData({ city, setData });
+    console.log(Object.keys(data).length > 0);
+
+    return (
+        <div className="box">
+            <div className="cityName">
+                {Object.keys(data).length > 0 && (
+                    <p>
+                        {data.name}, {data.sys.country}
+                    </p>
+                )}
+                <div className="search">
+                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City Name" />
+                    <img style={{ cursor: "pointer" }} src={searchIcon} alt="searchIcon" onClick={getCityWeatherData} />
+                </div>
+            </div>
+            {Object.keys(data).length > 0 ? <WeatherCard sys={data.sys} weatherData={data.main} weather={data.weather} city={data.name} lang={lang} windData={data.wind} /> : ""}
+
+            {/* <p onClick={() => setLang(!lang)} className="translater">
+                {lang ? "Hindi ?" : "Eng ?"}
+            </p> */}
         </div>
-      </div>
-      <WeatherCard
-      // weatherData={myData}
-      // weather={dataWeather}
-      // city={cityDetails}
-      // lang={lang}
-      // windData={windData}
-      />
-      <p
-        //    onClick={() => setLang(!lang)}
-        className="translater"
-      >
-        {/* {lang ? "Hindi ?" : "Eng ?"} */}
-        {"Eng ?"}
-      </p>
-    </div>
-  );
+    );
 }
 
 export default Bg;
