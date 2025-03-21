@@ -1,7 +1,7 @@
 import React from "react";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-
+// import Input01d from "../assets/01d.svg";
 function WeatherCard(props) {
     // console.log(props);
     const getTime = (timeStamp) => {
@@ -21,7 +21,7 @@ function WeatherCard(props) {
             <div className="currtemp">
                 <div className="tempAndLogo">
                     <div>
-                        <img src={`../icons/${props.weather[0].icon}.svg`} width={200} alt="icon" />
+                        <img src={`assets/${props.weather[0].icon}.svg`} width={200} alt="icon" />
                     </div>
                     <div>
                         {Math.round(props.weatherData.temp)}&deg;C
