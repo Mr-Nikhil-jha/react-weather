@@ -11,6 +11,7 @@ function Bg() {
     const [longitude, setLon] = useState(null);
     const [latitude, setLat] = useState(null);
     const [lang, setLang] = useState(true);
+    const [scale, setScale] = useState(1);
     // console.log(city);
 
     useEffect(() => {
@@ -47,9 +48,6 @@ function Bg() {
             .then((result) => setData(result));
         setCity("");
     };
-    // console.log("data", data);
-    //   GetWeatherData({ city, setData });
-    // console.log(Object.keys(data).length > 0);
 
     return (
         <div className="box">
@@ -61,7 +59,18 @@ function Bg() {
                 )}
                 <div className="search">
                     <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City Name" onKeyDown={(e) => e.key === "Enter" && getCityWeatherData()} />
-                    <img style={{ cursor: "pointer" }} src={searchIcon} alt="searchIcon" onClick={getCityWeatherData} />
+                    <img
+                        style={{
+                            cursor: "pointer",
+                            transform: `scale(${scale})`,
+                            transition: "transform 0.2s ease-in-out",
+                        }}
+                        src={searchIcon}
+                        alt="searchIcon"
+                        onClick={getCityWeatherData}
+                        onMouseEnter={() => setScale(1.2)} // Zoom in
+                        onMouseLeave={() => setScale(1)} // Reset size
+                    />
                     {/* <MyLocationRoundedIcon className=" cursor-pointer" color="action" onClick={getCityWeatherData} /> */}
                 </div>
             </div>
