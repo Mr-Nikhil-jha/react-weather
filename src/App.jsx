@@ -4,23 +4,16 @@ import Bg from "./components/Bg";
 import PreLoader from "./components/PreLoader";
 
 function App() {
-    const [load, updateLoad] = useState(true);
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            updateLoad(false);
-        }, 500);
+  const [load, updateLoad] = useState(true);
 
-        return () => clearTimeout(timer);
-    }, []);
-
-    return (
-        <>
-            <div className="App">
-                <PreLoader load={load} />
-                <Bg />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="App">
+        <PreLoader load={load} />
+        <Bg setLoad={updateLoad} />
+      </div>
+    </>
+  );
 }
 
 export default App;
