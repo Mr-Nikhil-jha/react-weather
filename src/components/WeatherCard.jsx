@@ -3,7 +3,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 
 function WeatherCard(props) {
-    console.log(props);
+    // console.log(props);
     const getTime = (timeStamp) => {
         return `${new Date(timeStamp * 1000).getHours()} : ${new Date(timeStamp * 1000).getMinutes()}`;
     };
@@ -32,12 +32,12 @@ function WeatherCard(props) {
                     <p>
                         {props.lang ? "Wind: " : "हवा: "}
                         <span>{props.windData.speed}&nbsp;mph</span>
-                        <span>50&nbsp;mph</span>
+                        {/* <span>50&nbsp;mph</span> */}
                     </p>
                     <p>
                         {props.lang ? "Min Temp: " : "न्यूनतम ताप: "}
                         <span>{Math.round(props.weatherData.temp_min)}&deg;C</span>
-                        <span>80&deg;C</span>
+                        {/* <span>80&deg;C</span> */}
                     </p>
                     <p>
                         {props.lang ? "Max Temp: " : "अधिकतम ताप: "}

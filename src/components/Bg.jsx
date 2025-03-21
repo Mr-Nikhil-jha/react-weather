@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import WeatherCard from "./WeatherCard";
 import linkIcon from "../assets/link.svg";
 import searchIcon from "../assets/search.svg";
+import MyLocationRoundedIcon from "@mui/icons-material/MyLocationRounded";
 
 function Bg() {
     const [city, setCity] = useState("New Delhi");
@@ -39,34 +40,33 @@ function Bg() {
     };
 
     const getCityWeatherData = () => {
+        if (city === "") return;
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
         fetch(url)
             .then((response) => response.json())
             .then((result) => setData(result));
         setCity("");
     };
-
+    // console.log("data", data);
     //   GetWeatherData({ city, setData });
-    console.log(Object.keys(data).length > 0);
+    // console.log(Object.keys(data).length > 0);
 
     return (
         <div className="box">
             <div className="cityName">
-                {Object.keys(data).length > 0 && (
+                {Object.keys(data).length > 0 && data.cod != "404" && (
                     <p>
                         {data.name}, {data.sys.country}
                     </p>
                 )}
                 <div className="search">
-                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City Name" />
+                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City Name" onKeyDown={(e) => e.key === "Enter" && getCityWeatherData()} />
                     <img style={{ cursor: "pointer" }} src={searchIcon} alt="searchIcon" onClick={getCityWeatherData} />
+                    {/* <MyLocationRoundedIcon className=" cursor-pointer" color="action" onClick={getCityWeatherData} /> */}
                 </div>
             </div>
-            {Object.keys(data).length > 0 ? <WeatherCard sys={data.sys} weatherData={data.main} weather={data.weather} city={data.name} lang={lang} windData={data.wind} /> : ""}
-
-            {/* <p onClick={() => setLang(!lang)} className="translater">
-                {lang ? "Hindi ?" : "Eng ?"}
-            </p> */}
+            {Object.keys(data).length > 0 && data.cod == "404" && <p className="invalid text-2xl">{"Invalid City Name"}</p>}
+            {Object.keys(data).length > 0 && data.cod != 404 ? <WeatherCard sys={data.sys} weatherData={data.main} weather={data.weather} city={data.name} lang={lang} windData={data.wind} /> : ""}
         </div>
     );
 }
